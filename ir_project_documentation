@@ -1,0 +1,60 @@
+Collecting the data
+---------------------------
+
+scrapy crawl archeo
+scrapy crawl archeo -o ../data/archeo.json  //some unnecessary newline characters are introduced
+scrapy crawl archeo -o ../data/archeo.jl    //are not
+
+bin/post -c archeo ../data/archeo.json
+==================================================================================================
+
+shell commands
+----------------
+response.css('li.menu-item-object-category a::text').extract()
+response.css('li.menu-item-object-category a::attr(href)').extract()
+
+scrapy shell https://www.archaeology.lk
+response.css('a.tag-cloud-link::attr(href)').extract()
+
+scrapy shell https://www.archaeology.lk/category/epigraphy
+response.css('a.tag-cloud-link::attr(href)').extract()
+
+h2.entry-title
+'a[rel="tag"]::attr(href)'
+
+response.css('h2.entry-title a::text').extract()
+response.css('h2.entry-title a::attr(href)').extract()
+response.css('article.post a[rel="tag"]::text').extract()
+
+for post in response.css('article.post'):
+    title = post.css('h2.entry-title a::text').extract_first()
+    link = post.css('h2.entry-title a::attr(href)').extract_first()
+    tags = post.css('a[rel="tag"]::text').extract()
+    print(dict(title=title, link=link, tags=tags))
+
+response.css('article.post a[rel="tag"]::attr(href)').extract()
+
+====================================================================================================
+
+Start solr
+---------------------------
+go to IR-project folder
+go in to solr package
+bin/solr start
+
+Sample 10 queries to be supported:
+1.Archeologial sites in Sri Lanka
+2.Wood carvings
+3.Archologically important natural existances (having stories about them)
+4.Caves in Sri Lanka
+5.Related to Anuradhapura
+6.Related to Polonnaruwa
+7.Historical Art
+8.Archaeological protected monuments in Anuradhapura
+9.Riligious archeological sites
+10.Ancient architecture
+
+The source from which you will scrape:
+https://www.archaeology.lk/
+https://en.wikipedia.org/wiki/Category:Archaeological_sites_in_Sri_Lanka
+http://www.infolanka.com/org/srilanka/hist.html
